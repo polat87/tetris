@@ -1,0 +1,30 @@
+*{box-sizing: border-box}
+
+#left, #right{
+    width: auto;
+    height: 600px;
+    float: left;
+}
+
+#board{    
+    margin-left: 35%;
+    width: 300px;
+    height: 600px;
+    float: left;
+}
+
+.block{
+    border: solid thin;
+    float: left;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+
+.white{
+    background-color: white;
+}
+
+.red{
+    background-color: red;
+}
