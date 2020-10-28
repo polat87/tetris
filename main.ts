@@ -1,3 +1,55 @@
+class Square{
+    private row: number;
+    private col: number;
+
+    public constructor(row: number, col: number){
+        this.row = row;
+        this.col = col;
+    } 
+
+    getRow(): number {return this.row;}
+    getCol(): number {return this.col;}
+    setRow(row: number): void {this.row = row;}
+    setCol(col: number): void {this.col = col;}
+}
+
+interface ITetromino{
+    rotate(): void;
+    left(): void;
+    right(): void;
+    fall(): void;
+}
+
+class StraightTetromino implements ITetromino{
+    private squares: Square[] = [];
+    private board: Board;
+
+    public constructor(board: Board){
+        this.board = board;
+
+        for(let i=0; i < 4; i++)
+        {
+            this.squares[i] = new Square(0, 3+i);
+        }
+    }
+
+    fall(){
+        this.squares.forEach(function(sq)
+        {
+            board.matrixAt(sq.getRow(), sq.getCol()).setColor("red");
+
+            if(sq.getRow() > 0){
+                board.matrixAt(sq.getRow()-1, sq.getCol()).setColor("white");
+            }
+            sq.setRow(sq.getRow()+1);
+        })  
+    }
+
+    rotate(){}
+    left(){}
+    right(){}
+}
+
 class Cell{
     private color: string;
     private row: number;
@@ -66,23 +118,15 @@ class Board{
 
     public matrixAt(row: number, col: number)
     {
+        console.log(row, " ",  col)        
         return this.matrix.getMatrix()[row][col];
     }
 }
 
+
 const board = new Board();
+const straight = new StraightTetromino(board);
 
-let i=0;
-
-function simulate()
-{
-    if(i>0)
-        board.matrixAt(i-1,5).setColor("white");
-
-    board.matrixAt(i,5).setColor("red");
-    i++;
-
-}
-
-setInterval(simulate, 1000);
+let simulate = straight.fall();
+let jebiga = setInterval(function() { straight.fall() }, 1000);
 

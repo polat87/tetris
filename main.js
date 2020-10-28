@@ -1,3 +1,40 @@
+var Square = /** @class */ (function () {
+    function Square(row, col) {
+        this.row = row;
+        this.col = col;
+    }
+    Square.prototype.getRow = function () { return this.row; };
+    Square.prototype.getCol = function () { return this.col; };
+    Square.prototype.setRow = function (row) { this.row = row; };
+    Square.prototype.setCol = function (col) { this.col = col; };
+    return Square;
+}());
+var StraightTetromino = /** @class */ (function () {
+    function StraightTetromino(board) {
+        this.squares = [];
+        this.board = board;
+        for (var i = 0; i < 4; i++) {
+            this.squares[i] = new Square(0, 3 + i);
+            /*             this.squares[i] = new Square(0, 4);
+                        this.squares[i] = new Square(0, 5);
+                        this.squares[i] = new Square(0, 6);
+             */ }
+    }
+    StraightTetromino.prototype.fall = function () {
+        this.squares.forEach(function (sq) {
+            board.matrixAt(sq.getRow(), sq.getCol()).setColor("red");
+            if (sq.getRow() > 0) {
+                //                    console.log("TEST-> ", sq.getRow()-1, sq.getCol())
+                board.matrixAt(sq.getRow() - 1, sq.getCol()).setColor("white");
+            }
+            sq.setRow(sq.getRow() + 1);
+        });
+    };
+    StraightTetromino.prototype.rotate = function () { };
+    StraightTetromino.prototype.left = function () { };
+    StraightTetromino.prototype.right = function () { };
+    return StraightTetromino;
+}());
 var Cell = /** @class */ (function () {
     function Cell(color, row, col) {
         this.color = color;
@@ -21,10 +58,10 @@ var Matrix = /** @class */ (function () {
         this.initMatrix();
     }
     Matrix.prototype.initMatrix = function () {
-        for (var i_1 = 0; i_1 < 20; i_1++) {
-            this.matrix[i_1] = [];
+        for (var i = 0; i < 20; i++) {
+            this.matrix[i] = [];
             for (var j = 0; j < 10; j++)
-                this.matrix[i_1][j] = new Cell("white", i_1, j);
+                this.matrix[i][j] = new Cell("white", i, j);
         }
     };
     Matrix.prototype.getMatrix = function () {
@@ -39,10 +76,10 @@ var Board = /** @class */ (function () {
     }
     Board.prototype.initBoard = function () {
         var board = document.querySelector('#board');
-        for (var i_2 = 0; i_2 < 20; i_2++) {
+        for (var i = 0; i < 20; i++) {
             for (var j = 0; j < 10; j++) {
                 var el = document.createElement('div');
-                el.id = i_2 + "-" + j;
+                el.id = i + "-" + j;
                 el.classList.add("block");
                 if (board)
                     board.appendChild(el);
@@ -50,16 +87,12 @@ var Board = /** @class */ (function () {
         }
     };
     Board.prototype.matrixAt = function (row, col) {
+        console.log(row, " ", col);
         return this.matrix.getMatrix()[row][col];
     };
     return Board;
 }());
 var board = new Board();
-var i = 0;
-function simulate() {
-    if (i > 0)
-        board.matrixAt(i - 1, 5).setColor("white");
-    board.matrixAt(i, 5).setColor("red");
-    i++;
-}
-setInterval(simulate, 1000);
+var straight = new StraightTetromino(board);
+var simulate = straight.fall();
+var jebiga = setInterval(function () { straight.fall(); }, 1000);
