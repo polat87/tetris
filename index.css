@@ -21,6 +21,11 @@
     text-align: center;
 }
 
+#down_btn, #right_btn, #left_btn, #rotate_btn{
+    width: 100px;
+    height: 50px;
+}
+
 .white{
     background-color: white;
 }
@@ -28,3 +33,17 @@
 .red{
     background-color: red;
 }
+
+.green{
+    background-color: green;
+}
+
+.blue{
+    background-color:blue;
+}
+
+.yellow{
+    background-color:yellow;
+}
+
+
